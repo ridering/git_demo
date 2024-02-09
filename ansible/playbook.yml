@@ -1,0 +1,21 @@
+---
+- name: Install nginx and index
+  hosts: localhost
+  become: true
+  become_method: su
+
+  tasks:
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: present
+
+  - name: Copy index
+    copy:
+      src: index.html
+      dest: /var/www/html/index.html
+      mode: '0644'
+
+  - systemd:
+      service: nginx
+      state: restarted
